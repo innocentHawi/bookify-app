@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "bookify",
+    "permissions": "AUDIO_RECORDING",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
@@ -18,7 +19,10 @@
     "ios": {
       "supportsTablet": true,
       "package": "com.ijk.bookify",
-      "bundleIdentifier": "com.innocenthawi.Bookify"
+      "bundleIdentifier": "com.innocenthawi.Bookify",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "This app needs access to your microphone for audio playback."
+      }
     },
     "android": {
       "adaptiveIcon": {

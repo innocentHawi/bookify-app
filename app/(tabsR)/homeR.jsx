@@ -7,14 +7,14 @@ import  SearchInput  from '../../components/SearchInput'
 import  Trending  from '../../components/Trending'
 import EmptyState from '../../components/EmptyState'
 import BookCard from '../../components/BookCard'
-import { getAllBooks, getLatestBooks } from '../../lib/appwrite'
+import { getAllBooks, getLatestAudiobooks } from '../../lib/appwrite'
 import useAppwrite from '../../lib/useAppwrite'
 import { useGlobalContext } from '../../context/GlobalProvider'
 
 const Home = () => {
-  const { user, setUser, setIsLoggedIn } = useGlobalContext();
+  const { userR, setUserR, setIsLoggedInR } = useGlobalContext();
   const { data: posts, refetch } = useAppwrite(getAllBooks);
-  const { data: latestPosts } = useAppwrite(getLatestBooks);
+  const { data: latestPosts } = useAppwrite(getLatestAudiobooks);
 
   const [refreshing, setRefreshing] = useState(false)
 
@@ -40,7 +40,7 @@ const Home = () => {
                   Welcome Back, 
                 </Text>
                 <Text className="text-2xl font-psemibold text-white">
-                  {user?.username}
+                  {userR?.username}
                 </Text>
               </View>
 
@@ -57,7 +57,7 @@ const Home = () => {
 
             <View className="w-full flex-1 pt-5 pb-8">
               <Text className="text-gray-100 text-lg font-pregular mb-3">
-                Latest Books
+                Audio Books
               </Text>
 
               <Trending posts={latestPosts ?? []} />
@@ -67,7 +67,6 @@ const Home = () => {
         ListEmptyComponent={() => (
           <EmptyState 
             title="No Books Found"
-            subtitle="Be the first one to upload a book"
           />
         )}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}

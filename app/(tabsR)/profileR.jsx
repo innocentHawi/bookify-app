@@ -12,12 +12,13 @@ import InfoBox from '../../components/InfoBox'
 import { router } from 'expo-router'
 
 const Profile = () => {
-  const { user, setUser, setIsLoggedIn } = useGlobalContext();
+  const { userR, setUserR, setIsLoggedInR } = useGlobalContext();
+  
   
   const logout = async () => {
     await signOut();
-    setUser(null)
-    setIsLoggedIn(false)
+    setUserR(null)
+    setIsLoggedInR(false)
 
     router.replace('/sign-inR')
   }
@@ -35,11 +36,11 @@ const Profile = () => {
             </TouchableOpacity>
 
             <View className="w-16 h-16 border border-secondary rounded-lg justify-center items-center">
-              <Image source={{ uri: user?.avatar}} className="w-[90%] h-[90%] rounded-lg" resizeMode='cover' />
+              <Image source={{ uri: userR?.avatar}} className="w-[90%] h-[90%] rounded-lg" resizeMode='cover' />
             </View>
 
             <InfoBox 
-              title={user?.username}
+              title={userR?.username}
               containerStyles='mt-5'
               titleStyles="text-lg"
             />

@@ -7,14 +7,14 @@ import  SearchInput  from '../../components/SearchInput'
 import  Trending  from '../../components/Trending'
 import EmptyState from '../../components/EmptyState'
 import BookCard from '../../components/BookCard'
-import { getAllBooks, getLatestBooks } from '../../lib/appwrite'
+import { getAllBooks, getLatestAudiobooks } from '../../lib/appwrite'
 import useAppwrite from '../../lib/useAppwrite'
 import { useGlobalContext } from '../../context/GlobalProvider'
 
 const Home = () => {
   const { user, setUser, setIsLoggedIn } = useGlobalContext();
   const { data: posts, refetch } = useAppwrite(getAllBooks);
-  const { data: latestPosts } = useAppwrite(getLatestBooks);
+  const { data: latestPosts } = useAppwrite(getLatestAudiobooks); // Fetch only audiobooks
 
   const [refreshing, setRefreshing] = useState(false)
 
@@ -29,7 +29,7 @@ const Home = () => {
       <FlatList 
         data={posts}
         keyExtractor={(item) => item.$id}
-        renderItem={({ item }) => (
+        renderItem={({ item }) => (    
           <BookCard books={item}/>
         )}
         ListHeaderComponent={() => (
@@ -57,7 +57,7 @@ const Home = () => {
 
             <View className="w-full flex-1 pt-5 pb-8">
               <Text className="text-gray-100 text-lg font-pregular mb-3">
-                Latest Books
+                Audio Books
               </Text>
 
               <Trending posts={latestPosts ?? []} />

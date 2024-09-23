@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from "react";
-
 import { getCurrentUser, getCurrentUserR } from '../lib/appwrite'
 
 const GlobalContext = createContext();
@@ -10,42 +9,54 @@ const GlobalProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        getCurrentUser()
-            .then((res) => {
-                if(res){
-                    setIsLoading(true);
-                    setUser(res)
-                } else {
-                    setIsLoading(false)
-                    setUser(null)
-                }
-            })
-            .catch((error) => {
-                console.log(error);    
-            })
-            .finally(() => {
-                setIsLoading(false)
-            })
-    }, []);
+    const [isLoggedInR, setIsLoggedInR] = useState(false); // Second user login state
+    const [userR, setUserR] = useState(null); // Second user state
+    const [isLoadingR, setIsLoadingR] = useState(true); // Second user loading state
+    const [savedBooks, setSavedBooks] = useState([]); // New state for saved books
 
     useEffect(() => {
-        getCurrentUserR() 
-            .then((res) => {
+        const fetchUser = async () => {
+            setIsLoading(true); // Start loading
+            try {
+                const res = await getCurrentUser();
                 if (res) {
-                    setIsLoading(true);
-                    setUser(res);
+                    setUser(res); // Set the first user
+                    setIsLoggedIn(true);
                 } else {
-                    setIsLoading(false);
                     setUser(null);
+                    setIsLoggedIn(false);
                 }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
+            } catch (error) {
+                console.log("Error fetching regular user:", error);
+            } finally {
+                setIsLoading(false); // Stop loading after fetching
+            }
+        };
+
+        fetchUser(); // Call the function
+    }, []);
+
+    // Fetching second user (e.g., admin user)
+    useEffect(() => {
+        const fetchUserR = async () => {
+            setIsLoadingR(true); // Start loading
+            try {
+                const res = await getCurrentUserR();
+                if (res) {
+                    setUserR(res); // Set the second user
+                    setIsLoggedInR(true);
+                } else {
+                    setUserR(null);
+                    setIsLoggedInR(false);
+                }
+            } catch (error) {
+                console.log("Error fetching second user:", error);
+            } finally {
+                setIsLoadingR(false); // Stop loading after fetching
+            }
+        };
+
+        fetchUserR(); // Call the function
     }, []);
     
 
@@ -56,7 +67,15 @@ const GlobalProvider = ({ children }) => {
                 setIsLoggedIn,
                 user,
                 setUser,
-                isLoading
+                isLoading,
+
+                isLoggedInR,
+                setIsLoggedInR,
+                userR,
+                setUserR,
+                isLoadingR,
+                savedBooks, // Provide the saved books to the rest of the app
+                setSavedBooks
             }}
         >
             {children}
