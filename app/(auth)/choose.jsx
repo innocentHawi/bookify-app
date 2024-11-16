@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     borderRadius: 10,
     marginBottom: 20,
-    width: '80%', // Make buttons large enough to be prominent
+    width: '80%', // Make buttons enough to be prominent
     alignItems: 'center',
   },
   buttonText: {

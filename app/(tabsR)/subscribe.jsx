@@ -1,11 +1,23 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { images } from '../../constants'
-import { useGlobalContext } from '../../context/GlobalProvider'
+import { View, Text, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { images } from '../../constants';
+import { useGlobalContext } from '../../context/GlobalProvider';
+import SubscriptionDetails from '../../components/SubscriptionDetails'; 
 
 const Subscribe = () => {
   const { userR } = useGlobalContext();
+  const [selectedPlan, setSelectedPlan] = useState(null); // Track selected plan
+
+  // If a plan is selected, show the SubscriptionDetails page
+  if (selectedPlan) {
+    return (
+      <SubscriptionDetails 
+        plan={selectedPlan} 
+        goBack={() => setSelectedPlan(null)} // Pass goBack function
+      />
+    );
+  }
 
   return (
     <SafeAreaView className="bg-primary h-full px-4">
@@ -15,7 +27,7 @@ const Subscribe = () => {
         <Image 
           source={images.bookifySmall}
           className="w-9 h-10"
-          resizeMode='contain'
+          resizeMode="contain"
         />
       </View>
 
@@ -31,23 +43,32 @@ const Subscribe = () => {
 
       {/* Subscription Options */}
       <View className="mt-8 space-y-4">
-        <View className="bg-secondary p-4 rounded-lg">
+        <TouchableOpacity 
+          className="bg-secondary p-4 rounded-lg" 
+          onPress={() => setSelectedPlan('Basic')}
+        >
           <Text className="text-xl text-white font-psemibold">Basic Plan</Text>
-          <Text className="text-gray-100 mt-2">Ksh999/month</Text>
+          <Text className="text-gray-100 mt-2">Ksh1/month</Text>
           <Text className="text-gray-200">Access to all audiobooks</Text>
-        </View>
+        </TouchableOpacity>
 
-        <View className="bg-secondary p-4 rounded-lg">
+        <TouchableOpacity 
+          className="bg-secondary p-4 rounded-lg" 
+          onPress={() => setSelectedPlan('Premium')}
+        >
           <Text className="text-xl text-white font-psemibold">Premium Plan</Text>
           <Text className="text-gray-100 mt-2">Ksh1,999/month</Text>
           <Text className="text-gray-200">Access to audiobooks and exclusive content</Text>
-        </View>
+        </TouchableOpacity>
 
-        <View className="bg-secondary p-4 rounded-lg">
+        <TouchableOpacity 
+          className="bg-secondary p-4 rounded-lg" 
+          onPress={() => setSelectedPlan('Family')}
+        >
           <Text className="text-xl text-white font-psemibold">Family Plan</Text>
           <Text className="text-gray-100 mt-2">Ksh2,999/month</Text>
           <Text className="text-gray-200">Share with up to 5 family members</Text>
-        </View>
+        </TouchableOpacity>
       </View>
 
       {/* Subscribe Button */}
@@ -55,7 +76,7 @@ const Subscribe = () => {
         <Text className="text-white text-lg font-psemibold">Subscribe Now</Text>
       </TouchableOpacity>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 export default Subscribe;

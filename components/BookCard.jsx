@@ -1,13 +1,49 @@
-import { View, Text, Image, TouchableOpacity, Dimensions, Modal, Alert } from 'react-native';
-import React, { useState } from 'react';
+import { View, Text, Image, TouchableOpacity, Modal, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { icons } from '../constants';
 import { useRouter } from 'expo-router';
-import { useGlobalContext } from '../context/GlobalProvider'; // Assuming you have a global context
+import { useGlobalContext } from '../context/GlobalProvider'; 
+import { getCurrentUserR } from '../lib/appwrite';
 
 const BookCard = ({ books: { title, thumbnail, author, ebook, audiobook, genre, synopsis, publsihdate, publisher: { username, avatar } } }) => {
   const router = useRouter();
-  const { savedBooks, setSavedBooks } = useGlobalContext(); // Assuming savedBooks is in global context
+  const [readerId, setReaderId] = useState(null);
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const { savedBooks, setSavedBooks } = useGlobalContext(false); 
+  const [forceFetch, setForceFetch] = useState(false); // Initialize forceFetch state
   const [modalVisible, setModalVisible] = useState(false); // For showing the menu
+
+
+  useEffect(() => {
+    const checkSubscription = async () => {
+      try {
+        const currentUser = await getCurrentUserR();
+        setReaderId(currentUser.readerId);
+        const status = currentUser?.subscriptionStatus ?? false;
+        setIsSubscribed(status);
+        console.log("Subscription status in component:", status);
+    } catch (error) {
+        console.error("Error fetching current user or subscription status:", error.message);
+        setIsSubscribed(false); // Default to false on error
+    }
+};
+
+    checkSubscription();
+}, []);
+
+  const handleOpenBook = () => {
+    console.log("Subscription status at handleOpenBook:", isSubscribed);
+    if (isSubscribed) {
+      router.push({ pathname: "pdf-viewer", params: { ebook } });
+    } else {
+       Alert.alert(
+          "Subscription Required",
+          "You need to subscribe to access this book.",
+          [{ text: "Subscribe Now", onPress: () => router.push("subscribe") }]
+      );
+    }
+  };
+
 
   // Save book function
   const saveBook = () => {
@@ -42,7 +78,7 @@ const BookCard = ({ books: { title, thumbnail, author, ebook, audiobook, genre, 
 
       {/* Navigate to the PDF Viewer */}
       <TouchableOpacity
-        onPress={() => router.push({ pathname: 'pdf-viewer', params: { ebook } })} 
+        onPress={handleOpenBook} 
         className="w-full h-60 rounded-xl mt-3 relative justify-center items-center"
       >
         <Image

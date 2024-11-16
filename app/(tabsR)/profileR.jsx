@@ -18,6 +18,7 @@ const Profile = () => {
   const logout = async () => {
     await signOut();
     setUserR(null)
+    //setIsSubscribed(null); // Clear subscription status
     setIsLoggedInR(false)
 
     router.replace('/sign-inR')

@@ -20,6 +20,7 @@
       "supportsTablet": true,
       "package": "com.ijk.bookify",
       "bundleIdentifier": "com.innocenthawi.Bookify",
+      "newArchEnabled": true,
       "infoPlist": {
         "NSMicrophoneUsageDescription": "This app needs access to your microphone for audio playback."
       }
@@ -36,7 +37,8 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true

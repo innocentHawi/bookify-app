@@ -12,7 +12,7 @@ import { createUserReader } from '../../lib/appwrite'
 import { useGlobalContext } from '../../context/GlobalProvider'; 
 
 const SignUp = () => {
-  const { setUser, setIsLoggedIn } = useGlobalContext();
+  const { setUserR, setIsLoggedInR } = useGlobalContext();
   const [form, setForm] = useState({
     username: '',
     email: '',
@@ -30,8 +30,8 @@ const SignUp = () => {
     try {
       const result = await createUserReader(form.email, form.password, form.username)
 
-      setUser(result);
-      setIsLoggedIn(true);
+      setUserR(result);
+      setIsLoggedInR(true);
 
       router.replace('/homeR')
     } catch (error) {

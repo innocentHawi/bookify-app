@@ -9,5 +9,8 @@ import bookify from "../assets/images/bookify.png";
 import bookify2 from "../assets/images/bookify2.png";
 import cards2 from "../assets/images/cards2.png";
 import bookifySmall from "../assets/images/bookify-small.png";
+import mpesa from "../assets/images/mpesa.png";
+import paypal from "../assets/images/paypal.png";
+import mastercard from "../assets/images/mastercard.png";
 
-export default { profile, thumbnail, cards, cards2, path, logo, bookify, bookify2, logoSmall, empty, bookifySmall };
+export default { profile, thumbnail, cards, cards2, path, logo, bookify, bookify2, logoSmall, empty, bookifySmall, mpesa, paypal, mastercard};
