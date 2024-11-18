@@ -1,35 +1,65 @@
-// SubscriptionDetails.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView, StyleSheet, TextInput, Alert } from 'react-native';
 import axios from 'axios';
+import { account } from 'react-native-appwrite';  // Import Appwrite's account object
+import { getCurrentUserR } from '../lib/appwrite';
 
 const PLAN_PRICES = {
-  Basic: 10,
+  Basic: 1,
   Premium: 1999,
   Family: 2999,
 };
 
 const SubscriptionDetails = ({ plan, goBack }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [readerId, setReaderId] = useState(null);
+  const [subscriptionStatus, setSubscriptionStatus] = useState(false);
   const planPrice = PLAN_PRICES[plan];
+
+  useEffect(() => {
+    // Get the current user's details (including readerId) when the component mounts
+    const getCurrentUser = async () => {
+      try {
+        const currentUser = await getCurrentUserR();
+        setReaderId(currentUser.readerId);
+        // Set the subscription status
+      const status = currentUser?.subscriptionStatus ?? false;
+      setSubscriptionStatus(status);
+      //console.log("Fetched Subscription:", status);
+      } catch (error) {
+        console.error('Error fetching user details:', error.message);
+      }
+    };
+
+    getCurrentUser();
+  }, []);
 
   const initiatePayment = async () => {
     if (!phoneNumber) {
       Alert.alert('Error', 'Please enter your phone number');
       return;
     }
-
+    if (!readerId) {
+      Alert.alert('Error', 'User not authenticated or readerId not found');
+      return;
+    }
+  
+    console.log('Current Subscription Status:', subscriptionStatus);
     try {
-      const response = await axios.post('https://9635-102-217-172-58.ngrok-free.app/initiate-payment', {
+      const response = await axios.post('https://39a6-102-217-172-58.ngrok-free.app/initiate-payment', {
         phoneNumber,
         plan,
         planPrice,
+        readerId, 
+        subscriptionStatus,
       });
+
       if (response.status === 200) {
-        //Alert.alert('Success', 'Check your phone to complete the payment');
+        // Successfully initiated payment, notify user or proceed with next steps
+        Alert.alert('Success', 'Check your phone to complete the payment');
       }
     } catch (error) {
-      console.error(error);
+      console.error('Error initiating payment:', error);
       Alert.alert('Error', 'Failed to initiate payment');
     }
   };

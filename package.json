@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "expo-router/entry",
   "scripts": {
-    "start": "expo start",
+    "start": "node server.js",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -42,6 +42,7 @@
     "metro-source-map": "^0.80.5",
     "mongoose": "^8.7.2",
     "nativewind": "^2.0.11",
+    "node-appwrite": "^14.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-native": "^0.76.1",

@@ -6,7 +6,7 @@ import { images } from '../../constants'
 import  SearchInput  from '../../components/SearchInput'
 import  Trending  from '../../components/Trending'
 import EmptyState from '../../components/EmptyState'
-import BookCard from '../../components/BookCard'
+import BookCardPublisher from '../../components/BookCardPublisher'
 import { getAllBooks, getLatestAudiobooks } from '../../lib/appwrite'
 import useAppwrite from '../../lib/useAppwrite'
 import { useGlobalContext } from '../../context/GlobalProvider'
@@ -30,7 +30,7 @@ const Home = () => {
         data={posts}
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (    
-          <BookCard books={item}/>
+          <BookCardPublisher books={item}/>
         )}
         ListHeaderComponent={() => (
           <View className="my-6 px-4 space-y-6">

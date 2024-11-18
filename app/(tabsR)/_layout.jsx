@@ -6,7 +6,7 @@ import { icons } from '../../constants';
 const TabIcon = ({ icon, color, name, focused}) => {
   return (
     //<View className="items-center justify-center gap">
-    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ alignItems: 'center', justifyContent: 'center', width: 60,}}>
       <Image 
         source={icon}
         resizeMode='contain'
@@ -17,15 +17,7 @@ const TabIcon = ({ icon, color, name, focused}) => {
           tintColor: color,
         }}
       />
-      <Text
-        style={{
-          color: color,
-          fontSize: 11, // Smaller font size
-          marginTop: 4, // Add a small gap between the icon and text
-          fontFamily: focused ? 'font-psemibold' : 'font-pregular', // Apply dynamic font
-        }}
-        //numberOfLines={1} // Prevent wrapping
-      >
+      <Text className={`${focused ? 'font-psemibold' : 'font-pregular'} text-xs`} style={{ color: color }}>
         {name}
       </Text>
     </View>
@@ -45,6 +37,7 @@ const TabsLayout = () => {
         borderTopWidth: 1,
         borderTopColor: '#232533',
         height: 84, 
+        paddingVertical: 10,
         },
       }}
     >

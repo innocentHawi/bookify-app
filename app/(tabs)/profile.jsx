@@ -1,7 +1,7 @@
 import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import EmptyState from '../../components/EmptyState'
-import BookCard from '../../components/BookCard'
+import BookCardPublisher from '../../components/BookCardPublisher'
 import { getUserBooks, signOut } from '../../lib/appwrite'
 import useAppwrite from '../../lib/useAppwrite'
 
@@ -31,7 +31,7 @@ const Profile = () => {
         data={posts}
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
-          <BookCard books={item}/>
+          <BookCardPublisher books={item}/>
         )}
         ListHeaderComponent={() => (
           <View className="w-full justify-center items-center mt-6 mb-12 px-4">

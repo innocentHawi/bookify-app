@@ -26,10 +26,10 @@ const BookCard = ({ books: { title, thumbnail, author, ebook, audiobook, genre, 
         console.error("Error fetching current user or subscription status:", error.message);
         setIsSubscribed(false); // Default to false on error
     }
-};
+  };
 
     checkSubscription();
-}, []);
+}, [forceFetch]);
 
   const handleOpenBook = () => {
     console.log("Subscription status at handleOpenBook:", isSubscribed);
@@ -41,6 +41,21 @@ const BookCard = ({ books: { title, thumbnail, author, ebook, audiobook, genre, 
           "You need to subscribe to access this book.",
           [{ text: "Subscribe Now", onPress: () => router.push("subscribe") }]
       );
+    }
+  };
+
+  const handleSubscriptionUpdate = async () => {
+    try {
+      // Simulating backend subscription update, then refresh the subscription status
+      // Assuming backend updates subscription status, now we just need to refresh the user data.
+      
+      // Trigger force fetch to re-fetch user data
+      setForceFetch(prev => !prev); // Toggle to re-trigger useEffect
+
+      Alert.alert("Success", "Subscription updated successfully!");
+    } catch (error) {
+      console.error("Error updating subscription:", error.message);
+      Alert.alert("Error", "Failed to update subscription status.");
     }
   };
 
@@ -107,6 +122,11 @@ const BookCard = ({ books: { title, thumbnail, author, ebook, audiobook, genre, 
             {/* Save option */}
             <TouchableOpacity onPress={saveBook} className="py-3">
               <Text className="text-primary text-lg">Save Book</Text>
+            </TouchableOpacity>
+
+             {/* Subscription update option */}
+             <TouchableOpacity onPress={handleSubscriptionUpdate} className="py-3">
+              <Text className="text-primary text-lg">Update Subscription</Text>
             </TouchableOpacity>
 
             {/* Close modal button */}
